@@ -1,209 +1,102 @@
-import { useEffect, useState } from 'react';
-import LazyImage from '../lazy-image';
-import { PiNewspaper } from 'react-icons/pi';
-import { getDevPost, getMediumPost } from '@arifszn/blog-js';
-import { formatDistance } from 'date-fns';
-import { SanitizedBlog } from '../../interfaces/sanitized-config';
-import { ga, skeleton } from '../../utils';
-import { Article } from '../../interfaces/article';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { FaUser, FaEnvelope, FaCommentDots, FaPaperPlane } from 'react-icons/fa';
 
-const BlogCard = ({
-  loading,
-  blog,
-  googleAnalyticsId,
-}: {
+// ✅ Definindo o tipo das props que o BlogCard deve aceitar
+type BlogCardProps = {
   loading: boolean;
-  blog: SanitizedBlog;
-  googleAnalyticsId?: string;
-}) => {
-  const [articles, setArticles] = useState<Article[]>([]);
+};
 
-  useEffect(() => {
-    if (blog.source === 'medium') {
-      getMediumPost({
-        user: blog.username,
-      }).then((res) => {
-        setArticles(res);
-      });
-    } else if (blog.source === 'dev') {
-      getDevPost({
-        user: blog.username,
-      }).then((res) => {
-        setArticles(res);
-      });
-    }
-  }, [blog.source, blog.username]);
+const BlogCard = ({ loading }: BlogCardProps) => {
+  const [form, setForm] = useState({ nome: '', email: '', mensagem: '' });
+  const [enviado, setEnviado] = useState(false);
 
-  const renderSkeleton = () => {
-    const array = [];
-    for (let index = 0; index < blog.limit; index++) {
-      array.push(
-        <div className="card shadow-md card-sm bg-base-100" key={index}>
-          <div className="p-8 h-full w-full">
-            <div className="flex items-center flex-col md:flex-row">
-              <div className="avatar mb-5 md:mb-0">
-                <div className="w-24 h-24 mask mask-squircle">
-                  {skeleton({
-                    widthCls: 'w-full',
-                    heightCls: 'h-full',
-                    shape: '',
-                  })}
-                </div>
-              </div>
-              <div className="w-full">
-                <div className="flex items-start px-4">
-                  <div className="w-full">
-                    <h2>
-                      {skeleton({
-                        widthCls: 'w-full',
-                        heightCls: 'h-8',
-                        className: 'mb-2 mx-auto md:mx-0',
-                      })}
-                    </h2>
-                    {skeleton({
-                      widthCls: 'w-24',
-                      heightCls: 'h-3',
-                      className: 'mx-auto md:mx-0',
-                    })}
-                    <div className="mt-3">
-                      {skeleton({
-                        widthCls: 'w-full',
-                        heightCls: 'h-4',
-                        className: 'mx-auto md:mx-0',
-                      })}
-                    </div>
-                    <div className="mt-4 flex items-center flex-wrap justify-center md:justify-start">
-                      {skeleton({
-                        widthCls: 'w-32',
-                        heightCls: 'h-4',
-                        className: 'md:mr-2 mx-auto md:mx-0',
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>,
-      );
-    }
-
-    return array;
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const renderArticles = () => {
-    return articles && articles.length ? (
-      articles.slice(0, blog.limit).map((article, index) => (
-        <a
-          className="card shadow-md card-sm bg-base-100 cursor-pointer"
-          key={index}
-          href={article.link}
-          onClick={(e) => {
-            e.preventDefault();
-
-            try {
-              if (googleAnalyticsId) {
-                ga.event('Click Blog Post', {
-                  post: article.title,
-                });
-              }
-            } catch (error) {
-              console.error(error);
-            }
-
-            window?.open(article.link, '_blank');
-          }}
-        >
-          <div className="p-8 h-full w-full">
-            <div className="flex items-center flex-col md:flex-row">
-              <div className="avatar mb-5 md:mb-0 opacity-90">
-                <div className="w-24 h-24 mask mask-squircle">
-                  <LazyImage
-                    src={article.thumbnail}
-                    alt={'thumbnail'}
-                    placeholder={skeleton({
-                      widthCls: 'w-full',
-                      heightCls: 'h-full',
-                      shape: '',
-                    })}
-                  />
-                </div>
-              </div>
-              <div className="w-full">
-                <div className="flex items-start px-4">
-                  <div className="text-center md:text-left w-full">
-                    <h2 className="font-medium text-base-content opacity-60">
-                      {article.title}
-                    </h2>
-                    <p className="text-base-content opacity-50 text-xs">
-                      {formatDistance(article.publishedAt, new Date(), {
-                        addSuffix: true,
-                      })}
-                    </p>
-                    <p className="mt-3 text-base-content text-sm">
-                      {article.description}
-                    </p>
-                    <div className="mt-4 flex items-center flex-wrap justify-center md:justify-start">
-                      {article.categories.map((category, index2) => (
-                        <div
-                          className="py-2 px-4 text-xs leading-3 rounded-full bg-base-300 mr-1 mb-1 opacity-50 text-base-content"
-                          key={index2}
-                        >
-                          #{category}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
-      ))
-    ) : (
-      <div className="text-center mb-6">
-        <PiNewspaper className="mx-auto h-12 w-12 opacity-30" />
-        <p className="mt-1 text-sm opacity-50 text-base-content">
-          No recent post
-        </p>
-      </div>
-    );
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('https://formspree.io/f/xdkdgldn', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          nome: form.nome,
+          email: form.email,
+          mensagem: form.mensagem,
+        }),
+      });
+      if (response.ok) {
+        setEnviado(true);
+        setForm({ nome: '', email: '', mensagem: '' });
+      } else {
+        alert('Ocorreu um erro ao enviar sua mensagem. Tente novamente.');
+      }
+    } catch (error) {
+      alert('Ocorreu um erro ao enviar sua mensagem. Tente novamente.');
+    }
   };
 
   return (
     <div className="col-span-1 lg:col-span-2">
-      <div className="card bg-base-200 shadow-xl border border-base-300">
-        <div className="card-body p-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-            <div className="flex items-center space-x-3">
-              {loading ? (
-                skeleton({
-                  widthCls: 'w-12',
-                  heightCls: 'h-12',
-                  className: 'rounded-xl',
-                })
-              ) : (
-                <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl">
-                  <PiNewspaper className="text-2xl" />
-                </div>
-              )}
-              <div className="min-w-0 flex-1">
-                <h3 className="text-base sm:text-lg font-bold text-base-content truncate">
-                  {loading
-                    ? skeleton({ widthCls: 'w-28', heightCls: 'h-8' })
-                    : 'My Articles'}
-                </h3>
-                <div className="text-base-content/60 text-xs sm:text-sm mt-1 truncate">
-                  {loading
-                    ? skeleton({ widthCls: 'w-32', heightCls: 'h-4' })
-                    : 'Recent posts'}
-                </div>
-              </div>
+      <div className="card bg-gradient-to-br from-base-200 to-base-100 shadow-2xl border border-base-300 rounded-2xl">
+        <div className="card-body p-10">
+          <h3 className="text-2xl font-extrabold text-primary mb-6 flex items-center gap-2">
+            <FaPaperPlane className="text-primary" /> Fale comigo
+          </h3>
+          {enviado ? (
+            <div className="text-green-600 font-semibold text-lg text-center animate-pulse">
+              Mensagem enviada com sucesso!
             </div>
-          </div>
-          <div className="grid grid-cols-1 gap-6">
-            {loading || !articles ? renderSkeleton() : renderArticles()}
-          </div>
+          ) : (
+            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+              <div className="relative">
+                <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-primary/70" />
+                <input
+                  type="text"
+                  name="nome"
+                  placeholder="Seu nome"
+                  value={form.nome}
+                  onChange={handleChange}
+                  className="input input-bordered pl-10 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all w-full"
+                  required
+                />
+              </div>
+              <div className="relative">
+                <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-primary/70" />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Seu email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="input input-bordered pl-10 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all w-full"
+                  required
+                />
+              </div>
+              <div className="relative">
+                <FaCommentDots className="absolute left-3 top-4 text-primary/70" />
+                <textarea
+                  name="mensagem"
+                  placeholder="Sua mensagem"
+                  value={form.mensagem}
+                  onChange={handleChange}
+                  className="textarea textarea-bordered pl-10 pt-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all w-full min-h-[120px]"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg rounded-xl shadow-md hover:scale-105 transition-transform flex items-center gap-2 mx-auto px-8"
+                disabled={loading}
+              >
+                <FaPaperPlane /> {loading ? 'Enviando...' : 'Enviar'}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>

@@ -4,6 +4,8 @@ const CONFIG = {
   github: {
     username: 'Igor-Barret0', // Your GitHub org/user name. (This is the only required config)
   },
+  
+
   /**
    * If you are deploying to https://<USERNAME>.github.io/, for example your repository is at https://github.com/arifszn/arifszn.github.io, set base to '/'.
    * If you are deploying to https://<USERNAME>.github.io/<REPO_NAME>/,
@@ -20,7 +22,11 @@ const CONFIG = {
         limit: 8, // How many projects to display.
         exclude: {
           forks: false, // Forked projects will not be displayed if set to true.
-          projects: [], // These projects will not be displayed. example: ['arifszn/my-project1', 'arifszn/my-project2']
+          projects: [
+            'Igor-Barret0/Portf-lio01',
+            'Igor-Barret0/Igor-Barret0',
+            'Igor-Barret0/Portf-lio',
+          ], // Estes projetos não serão exibidos
         },
       },
       manual: {
@@ -33,123 +39,100 @@ const CONFIG = {
       // To hide the `External Projects` section, keep it empty.
       projects: [
         {
-          title: 'Project Name',
+          title: 'Getinfo',
           description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut.',
-          imageUrl:
-            'https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg',
-          link: 'https://example.com',
+            'Sistema para centralizar e automatizar a gestão do ciclo de vida de contratos, desde sua celebração até o encerramento.',
+          imageUrl: './getinfo.png',
+          link: 'https://getinfo-seven.vercel.app',
         },
         {
-          title: 'Project Name',
+          title: 'MyQuimicaLab',
           description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut.',
+            'Projeto de Iniciação Científica com o foco em ensinar química orgânica através da experiência lúdica e descontraída de um jogo.',
           imageUrl:
-            'https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg',
-          link: 'https://example.com',
+            './myquimicalab.png',
+          link: 'https://myquimicalab.github.io/',
         },
       ],
     },
   },
-  seo: { title: 'Portfolio of Ariful Alam', description: '', imageURL: '' },
+  seo: { title: 'Portfolio of Igor Barreto', description: '', imageURL: '' },
   social: {
-    linkedin: 'ariful-alam',
-    x: 'arif_szn',
-    mastodon: 'arifszn@mastodon.social',
-    researchGate: '',
-    facebook: '',
-    instagram: '',
-    reddit: '',
-    threads: '',
-    youtube: '', // example: 'pewdiepie'
-    udemy: '',
-    dribbble: '',
-    behance: '',
-    medium: 'arifszn',
-    dev: 'arifszn',
-    stackoverflow: '', // example: '1/jeff-atwood'
-    discord: '',
-    telegram: '',
-    website: 'https://www.arifszn.com',
-    phone: '',
-    email: 'arifulalamszn@gmail.com',
+    linkedin: 'linkedin.com/in/igor-barreto-135ab2281/',
+    discord: '1332680356175937571',
+    Github: 'https://github.com/Igor-Barret0',
+    email: 'ig0r.barr3to@gmail.com',
   },
   resume: {
     fileUrl:
-      'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', // Empty fileUrl will hide the `Download Resume` button.
+      'https://docs.google.com/document/d/1jAXsUtOGDRff5vh3Zt7oM5PVqZm_IEtt/edit?usp=drive_link&ouid=115471461113663628545&rtpof=true&sd=true', // Empty fileUrl will hide the `Download Resume` button.
   },
   skills: [
-    'PHP',
-    'Laravel',
     'JavaScript',
+    'TypeScript',
     'React.js',
     'Node.js',
-    'Nest.js',
     'MySQL',
-    'PostgreSQL',
     'Git',
-    'Docker',
-    'PHPUnit',
+    'Python',
     'CSS',
-    'Antd',
-    'Tailwind',
+    'JAVA',
   ],
   experiences: [
     {
-      company: 'Company Name',
-      position: 'Position',
-      from: 'September 2021',
-      to: 'Present',
-      companyLink: 'https://example.com',
+      company: 'Secretaria de Estado da Educação',
+      position: 'Estagiário',
+      from: '10/03/2025',
+      to: 'Atual',
+      companyLink: 'https://seduc.se.gov.br/',
     },
     {
-      company: 'Company Name',
-      position: 'Position',
-      from: 'July 2019',
-      to: 'August 2021',
-      companyLink: 'https://example.com',
-    },
-  ],
-  certifications: [
-    {
-      name: 'Lorem ipsum',
-      body: 'Lorem ipsum dolor sit amet',
-      year: 'March 2022',
-      link: 'https://example.com',
+      company: 'Viação Atalaia LTDA',
+      position: 'Aprendiz',
+      from: '10/01/2024',
+      to: '24/04/2025',
+      companyLink: 'https://viacaoatalaia.com.br/',
     },
   ],
   educations: [
     {
-      institution: 'Institution Name',
-      degree: 'Degree',
-      from: '2015',
-      to: '2019',
-    },
-    {
-      institution: 'Institution Name',
-      degree: 'Degree',
-      from: '2012',
-      to: '2014',
+      institution: 'Universidade Tiradentes',
+      institutionLink: 'https://www.unit.br/',
+      degree: 'Ciência de Computação',
+      from: '2023',
+      to: '2027',
     },
   ],
-  publications: [
+  certifications: [
     {
-      title: 'Publication Title',
-      conferenceName: '',
-      journalName: 'Journal Name',
-      authors: 'John Doe, Jane Smith',
-      link: 'https://example.com',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      body: 'ADA TECH',
+      name: 'Banco de Dados',
+      year: '15/06/2025',
     },
     {
-      title: 'Publication Title',
-      conferenceName: 'Conference Name',
-      journalName: '',
-      authors: 'John Doe, Jane Smith',
-      link: 'https://example.com',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      body: 'ADA TECH',
+      name: 'Introdução a Plataforma Node.js',
+      year: '20/06/2025',
+    },
+    {
+      body: 'ADA TECH',
+      name: 'Introdução ao Google Cloud',
+      year: '26/03/2023',
+    },
+    {
+      body: 'ADA TECH',
+      name: 'Linguagem de Programação JAVA',
+      year: '01/06/2025',
+    },
+    {
+      body: 'ADA TECH',
+      name: 'Linguagem de Programação Python',
+      year: '01/03/2025',
+    },
+    {
+      body: 'ADA TECH',
+      name: 'GIT e Versionamento',
+      year: '03/04/2025',
     },
   ],
   // Display articles from your medium or dev account. (Optional)
@@ -217,13 +200,6 @@ const CONFIG = {
       'procyon',
     ],
   },
-
-  // Optional Footer. Supports plain text or HTML.
-  footer: `Made with <a 
-      class="text-primary" href="https://github.com/arifszn/gitprofile"
-      target="_blank"
-      rel="noreferrer"
-    >GitProfile</a> and ❤️`,
 
   enablePWA: true,
 };
